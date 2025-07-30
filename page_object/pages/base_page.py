@@ -12,6 +12,10 @@ class BasePage:
         WebDriverWait(self.driver, Data.TIMEOUT).until(ec.visibility_of_element_located(locator))
         return self.driver.find_element(*locator)
 
+    def find_elements_with_wait(self, locator):
+        WebDriverWait(self.driver, Data.TIMEOUT).until(ec.presence_of_element_located(locator))
+        return self.driver.find_elements(*locator)
+
     def go_to_url(self, url):
         self.driver.get(url)
 
@@ -42,7 +46,7 @@ class BasePage:
         all_tabs = self.driver.window_handles
         self.driver.switch_to.window(all_tabs[-1])
 
-    #работает только в хром, возможно отработает в лисе
+    # работает только в хром, возможно отработает в лисе
     def my_drag_and_drop(self, locator_from, locator_to):
         element_from = self.find_element_with_wait(locator_from)
         element_to = self.find_element_with_wait(locator_to)
