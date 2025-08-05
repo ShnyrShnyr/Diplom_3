@@ -1,37 +1,37 @@
+import allure
+from selenium.webdriver.common.by import By
+
 from page_object.data import Data
 from page_object.pages.base_page import BasePage
+from page_object.locators.main_page_locators import MainPageLocators
 from page_object.locators.lenta_orders_page_locators import LentaOrdersPageLocators
-from page_object.pages.main_page import MainPage
 
+@allure.description("Лента заказов")
+class LentaOrdersPage(BasePage):
 
-class LentaOrdersPage(BasePage, MainPage):
+    def __init__(self, driver):
+        super().__init__(driver)
+
+    @allure.step('Открыть модальное окно заказа')
     def open_modal_order(self):
-        self.click_to_element(LentaOrdersPageLocators.ORDER)
+        self.click_on_element(LentaOrdersPageLocators.ORDER)
         element = self.find_element_with_wait(LentaOrdersPageLocators.MODAL_ORDER)
         return element
 
-    def history_orders_in_lenta_orders(self):
-        self.go_to_url(Data.URL_MAIN_PAGE + Data.URL_HISTORY_ORDERS)
-        items = self.find_elements_with_wait(LentaOrdersPageLocators.ORDERS_FROM_HISTORY)
-        last_item = items[-1]
-        self.scroll_to_element(last_item)
-        order_number = last_item.get_text_from_element(LentaOrdersPageLocators.FIELD_NUMBER_GET)
-        self.go_to_url(Data.URL_MAIN_PAGE + Data.URL_LENTA_ORDERS)
-        locator = LentaOrdersPageLocators.FIELD_NUMBER_FIND
-        order_lenta = self.get_text_from_element(locator)
-        return order_number == order_lenta
-
+    @allure.step('Создание заказа увеличивает счетчик')
     def create_order_increases_counter(self, locator):
         total_orders_before = self.get_text_from_element(locator)
-        _ = self.auth_user_create_order()
+        _, __ = self.auth_user_create_order()
         self.go_to_url(Data.URL_MAIN_PAGE + Data. URL_LENTA_ORDERS)
-        total_orders = self.get_text_from_element(locator)
-        return total_orders > total_orders_before
+        total_orders_after = self.get_text_from_element(locator)
+        return total_orders_before, total_orders_after
 
+    @allure.step('Создание заказа и поиск его "В работе"')
     def create_order_and_find_in_work(self):
-        element = self.auth_user_create_order()
-        order_number = self.get_text_from_element(element)
-        orders = self.find_elements_with_wait(LentaOrdersPageLocators.ORDER_AT_WORK).text
-        return order_number, orders
-
-
+        _,order_number = self.auth_user_create_order()
+        self.click_on_element(LentaOrdersPageLocators.CLOSE_MODAL_ORDER)
+        order_locator_at_work = By.XPATH, f'//li[text()="{order_number}" and text()="0"]'
+        self.go_to_url(Data.URL_MAIN_PAGE + Data. URL_LENTA_ORDERS)
+        self.waiting_to_close_modal(LentaOrdersPageLocators.WAITING_AT_WORK)
+        element = self.find_elements_with_wait(order_locator_at_work)
+        return True

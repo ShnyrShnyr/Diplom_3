@@ -1,23 +1,28 @@
+import allure
 
 
 class TestRedirectPage:
-
-    def test_redirect_to_recovery_password(self, login_page):
-        element = login_page.redirect_to_password_recovery()
+    @allure.title("Проверка перенаправления на страницу изменения пароля")
+    def test_redirect_to_recovery_password(self, redirect_page):
+        element = redirect_page.redirect_to_password_recovery()
         assert element.is_displayed()
 
-    def test_redirect_to_sign_in(self, main_page):
-        element = main_page.redirect_to_password_recovery()
+    @allure.title("Проверка перенаправления на страницу авторизации")
+    def test_redirect_to_sign_in(self, redirect_page):
+        element = redirect_page.redirect_to_sign_in()
         assert element.is_displayed()
 
-    def test_redirect_to_history_orders(self,login_page):
-        element = login_page.redirect_to_history_orders()
+    @allure.title("Проверка перенаправления на страницу истории заказов")
+    def test_redirect_to_history_orders(self, redirect_page):
+        element = redirect_page.redirect_to_history_orders()
         assert element.is_displayed()
 
-    def test_redirect_from_constractor(self,login_page):
-        element = login_page.redirect_from_constractor()
+    @allure.title("Проверка перенаправления на конструктора заказов")
+    def test_redirect_from_constractor(self,redirect_page):
+        element = redirect_page.redirect_from_constractor()
         assert element.is_displayed()
 
-    def test_redirect_to_lenta_orders(self, login_page):
-        element = login_page.redirect_to_lenta_orders()
+    @allure.title("Проверка перенаправления на страницу лента заказов")
+    def test_redirect_to_lenta_orders(self, redirect_page):
+        element = redirect_page.redirect_to_lenta_orders()
         assert element.is_displayed()
