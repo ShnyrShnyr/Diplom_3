@@ -27,7 +27,7 @@ class BasePage:
 
     @allure.step("Ожидание пока модальное окно перестанет быть видимым")
     def waiting_to_close_modal(self, locator):
-        return WebDriverWait(self.driver, 20).until(ec.invisibility_of_element_located(locator))
+        WebDriverWait(self.driver, 20).until(ec.invisibility_of_element_located(locator))
 
     @allure.step("Переход по URL")
     def go_to_url(self, url):
@@ -45,14 +45,6 @@ class BasePage:
     def get_text_from_element(self, locator):
         text = self.find_element_with_wait(locator).text
         return text
-
-    @allure.step("Получить список с текстом из всех элементов одного локатора")
-    def get_list_with_text_elements(self, locator):
-        list_elements = self.find_elements_with_wait(locator)
-        list_text_from_elements = []
-        for i in range(len(list_elements)):
-            list_text_from_elements.append(list_elements[i].text)
-        return list_text_from_elements
 
     @allure.step("Переключиться на другое окно")
     def switch_to_window(self):
@@ -115,6 +107,7 @@ class BasePage:
     def check_element_is_clickable(self, locator):
         return WebDriverWait(self.driver, Data.TIMEOUT).until(ec.element_to_be_clickable(locator))
 
+
     @allure.step('Авторизация без создания заказа')
     def auth_user_without_create_order(self):
         self.click_on_element(MainPageLocators.SIGN_IN_BUTTON)
@@ -140,11 +133,8 @@ class BasePage:
             self.drag_and_drop_element(MainPageLocators.INGREDIENT_ICON_2, MainPageLocators.LOCATOR_TO)
             self.drag_and_drop_element(MainPageLocators.INGREDIENT_ICON_3, MainPageLocators.LOCATOR_TO)
         self.click_on_element(MainPageLocators.CREATE_ORDER_BUTTON)
-        self.waiting_to_close_modal(LentaOrdersPageLocators.ORDER_9999)
-        element = self.find_element_with_wait(MainPageLocators.CONFIRM_ORDER)
-        order_number = element.text
+        self.waiting_to_close_modal(LentaOrdersPageLocators.ORDER_9999) # жду пока 9999 престанет быть видим
+        element = self.find_element_with_wait(MainPageLocators.CONFIRM_ORDER) # жду появления элемента с номером заказа
+        order_number = self.get_text_from_element(MainPageLocators.CONFIRM_ORDER) # забираю текст из элемента
         return element, order_number
 
-    '''def find_element_in_area(self, locator_element):
-        element = self.find_element_with_wait(locator_element)
-        return element.is_element_in_area(LentaOrdersPageLocators.AREA_AT_WORK)'''

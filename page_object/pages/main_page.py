@@ -20,7 +20,12 @@ class MainPage(BasePage):
         self.click_on_element(MainPageLocators.INGREDIENT_ICON)
         self.find_element_with_wait(MainPageLocators.INGREDIENT_MODAL)
         self.click_on_element(MainPageLocators.CLOSE_INGREDIENT_MODAL)
-        return self.waiting_to_close_modal(MainPageLocators.INGREDIENT_MODAL)
+        try:
+            self.waiting_to_close_modal(MainPageLocators.INGREDIENT_MODAL)
+            result = True
+        except Exception:
+            result = False
+        return result
 
     @allure.step("При добавлении ингредиента счетчик ингредиента меняется")
     def change_the_counter_of_ingredient(self):

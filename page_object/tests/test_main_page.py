@@ -9,8 +9,8 @@ class TestMainPage:
 
     @allure.title("Проверка закрытия модального окна")
     def test_close_modal(self, main_page):
-        modal_closed = main_page.click_to_close_modal()
-        assert modal_closed
+        status_modal_closed = main_page.click_to_close_modal()
+        assert status_modal_closed
 
     @allure.title("Проверка изменения счетчика ингредиента в заказе")
     def test_change_the_counter_of_ingredient(self, main_page):

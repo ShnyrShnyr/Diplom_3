@@ -24,7 +24,7 @@ class TestLentaOrdersPage:
 
     @allure.title("Проверка, что созданный заказ появляется 'В работе'")
     def test_create_order_and_find_in_work(self, lenta_orders_page):
-        element_is_in_work = lenta_orders_page.create_order_and_find_in_work()
-        assert element_is_in_work == True
+        order_expected, order_actual = lenta_orders_page.create_order_and_find_in_work()
+        assert order_expected == order_actual
 
 

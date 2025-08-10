@@ -42,7 +42,7 @@ class LoginPage(BasePage):
         self.click_on_element(MainPageLocators.LENTA_ORDERS_BUTTON)
         element1 = self.find_element_with_wait(locator_order_lenta_last)
         element2 = self.find_element_with_wait(locator_order_lenta_second_last)
-        return element1,element2
+        return element1, element2
 
     @allure.step("Восстановление пароля по email")
     def enter_email_click_to_button(self):
