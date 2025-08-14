@@ -1,4 +1,6 @@
 import allure
+from selenium.webdriver.common.by import By
+
 from page_object.data import Data
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -133,8 +135,7 @@ class BasePage:
             self.drag_and_drop_element(MainPageLocators.INGREDIENT_ICON_2, MainPageLocators.LOCATOR_TO)
             self.drag_and_drop_element(MainPageLocators.INGREDIENT_ICON_3, MainPageLocators.LOCATOR_TO)
         self.click_on_element(MainPageLocators.CREATE_ORDER_BUTTON)
-        self.waiting_to_close_modal(LentaOrdersPageLocators.ORDER_9999) # жду пока 9999 престанет быть видим
-        element = self.find_element_with_wait(MainPageLocators.CONFIRM_ORDER) # жду появления элемента с номером заказа
+        element = WebDriverWait(self.driver, Data.TIMEOUT).until(ec.visibility_of_element_located(MainPageLocators.CONFIRM_ORDER))
         order_number = self.get_text_from_element(MainPageLocators.CONFIRM_ORDER) # забираю текст из элемента
         return element, order_number
 

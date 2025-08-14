@@ -14,6 +14,6 @@ class MainPageLocators:
     INGREDIENT_ICON_3 = By.XPATH, '//img[@alt="Говяжий метеорит (отбивная)"]'
     INGREDIENT_MODAL = By.XPATH,'//p[text()="Калории,ккал"]'
     INGREDIENT_COUNTER = By.XPATH, '//ul[2]/a[2]/div[1]/p'
-    CONFIRM_ORDER = By.XPATH, '//h2[contains(@class,"3ikwq")]'
+    CONFIRM_ORDER = By.XPATH, '//h2[contains(@class,"3ikwq") and text() != "9999"]'
     HEADERS = By.XPATH, '//nav[contains(@class,"g5hnF")]'
     INGREDIENTS_AREA = By.XPATH,'//div[contains(@class,"Xu3Mo")]'
